@@ -1,23 +1,23 @@
 <template>
   <div class="history-box">
     <h3>History</h3>
-    <ul class="list">
-      <li class="plus">
-        <span>與公司同事聚餐</span>
-        <span>$-200</span>
-        <button class="delete-btn">x</button>
-      </li>
-
-      <li class="minus">
-        <span>月薪支入帳</span>
-        <span>$+500</span>
+    <ul v-for="transaction in transactions" :key="transaction.id" class="list">
+      <li :class="transaction.category">
+        <span>{{ transaction.text }}</span>
+        <span>{{ transaction.category === 'plus' ? '+' : '-' }} ${{ transaction.amount }}</span>
         <button class="delete-btn">x</button>
       </li>
     </ul>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+  transactions: {
+    type: Array,
+  },
+})
+</script>
 
 <style lang="scss" scoped>
 @import '../assets/styles/variables';
@@ -76,11 +76,11 @@
     .delete-btn {
       cursor: pointer;
       position: absolute;
-      left: -1.4rem;
+      left: -1.7rem;
       border: none;
       background-color: #dc5555;
-      padding: 0.2rem 0.5rem;
-      border-radius: 3px;
+      padding: 0.3rem 0.6rem;
+      border-radius: 3.5px 0 0 3.55px;
       color: #fff;
       transition: all 0.15s ease-in-out;
       pointer-events: none;
@@ -107,6 +107,7 @@
       margin-left: 0.5rem;
       padding: 0.15rem 0.4rem;
       font-size: 0.85rem;
+      border-radius: 3px;
     }
   }
 }
