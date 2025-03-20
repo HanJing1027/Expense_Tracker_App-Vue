@@ -1,11 +1,11 @@
 <template>
   <Header />
-  <section class="container">
+  <main class="container">
     <Balabce :getBalabce="getBalabce" />
     <IncomeExpenses :getIncome="getIncome" :getExpenses="getExpenses" />
     <TransactionList :transactions="transactions" />
-    <AddTransaction />
-  </section>
+    <AddTransaction @addTransaction="handleAddTransaction" />
+  </main>
 </template>
 
 <script setup>
@@ -17,20 +17,7 @@ import AddTransaction from './components/AddTransaction.vue'
 
 import { computed, ref } from 'vue'
 
-const transactions = ref([
-  {
-    id: 1,
-    text: '月薪支入帳',
-    amount: 500,
-    category: 'plus',
-  },
-  {
-    id: 2,
-    text: '與公司同事聚餐',
-    amount: 200,
-    category: 'minus',
-  },
-])
+const transactions = ref([])
 
 const getIncome = computed(() => {
   return transactions.value
@@ -50,6 +37,10 @@ const getBalabce = computed(() => {
   const total = getIncome.value - getExpenses.value
   return total.toFixed(2)
 })
+
+const handleAddTransaction = (transactionData) => {
+  transactions.value.push(transactionData)
+}
 </script>
 
 <style scoped></style>

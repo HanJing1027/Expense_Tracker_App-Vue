@@ -1,7 +1,8 @@
 <template>
   <div class="history-box">
     <h3>History</h3>
-    <ul v-for="transaction in transactions" :key="transaction.id" class="list">
+    <p v-if="transactions.length === 0" class="no-records">尚未有歷史紀錄</p>
+    <ul v-else v-for="transaction in transactions" :key="transaction.id" class="list">
       <li :class="transaction.category">
         <span>{{ transaction.text }}</span>
         <span>{{ transaction.category === 'plus' ? '+' : '-' }} ${{ transaction.amount }}</span>
@@ -29,6 +30,13 @@ const props = defineProps({
 
   h3 {
     @include subtitle;
+  }
+
+  .no-records {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    line-height: 3;
   }
 }
 

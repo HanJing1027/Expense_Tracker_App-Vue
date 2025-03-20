@@ -4,34 +4,82 @@
     <form>
       <div class="form-control">
         <label for="text">內容</label>
-        <input id="text" type="text" placeholder="請輸入內容..." />
+        <input id="text" type="text" placeholder="請輸入內容..." v-model="newTransaction.text" />
       </div>
 
       <div class="form-control">
         <label for="amount">金額</label>
-        <input type="number" id="amount" placeholder="請輸入金額..." />
+        <input
+          type="number"
+          id="amount"
+          placeholder="請輸入金額..."
+          v-model="newTransaction.amount"
+        />
       </div>
 
       <div class="category-control">
         <label>
-          <input type="radio" name="category" value="plus" />
+          <input type="radio" name="category" value="plus" v-model="newTransaction.category" />
           <span class="bubble plus"></span>
           <p>收入</p>
         </label>
 
         <label>
-          <input type="radio" name="category" value="minus" />
+          <input type="radio" name="category" value="minus" v-model="newTransaction.category" />
           <span class="bubble minus"></span>
           <p>支出</p>
         </label>
       </div>
 
-      <button @click.prevent class="btn">添加款項紀錄</button>
+      <button @click.prevent="addTransaction" class="btn">添加款項紀錄</button>
     </form>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { reactive, watch } from 'vue'
+
+const emits = defineEmits(['addTransaction'])
+
+// 創建一個響應式的物件來存儲新的交易資料
+const newTransaction = reactive({
+  text: '',
+  amount: null,
+  category: '',
+})
+
+// 處理添加交易的點擊事件
+const addTransaction = () => {
+  // 基本驗證
+  if (!newTransaction.text.trim()) {
+    alert('請輸入交易內容')
+    return
+  }
+
+  if (newTransaction.amount <= 0) {
+    alert('金額必須大於零')
+    return
+  }
+
+  if (!newTransaction.category) {
+    alert('請選擇類型(收入或支出)')
+    return
+  }
+
+  // 創建新的交易物件
+  const transactionToAdd = {
+    id: Date.now(),
+    text: newTransaction.text,
+    amount: parseFloat(newTransaction.amount),
+    category: newTransaction.category,
+  }
+  emits('addTransaction', transactionToAdd)
+
+  newTransaction.text = ''
+  newTransaction.amount = null
+  newTransaction.category = ''
+}
+</script>
 
 <style lang="scss" scoped>
 @import '../assets/styles/variables';
