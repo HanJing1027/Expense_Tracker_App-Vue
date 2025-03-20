@@ -3,7 +3,7 @@
   <main class="container">
     <Balabce :getBalabce="getBalabce" />
     <IncomeExpenses :getIncome="getIncome" :getExpenses="getExpenses" />
-    <TransactionList :transactions="transactions" />
+    <TransactionList @deleteTransaction="handleTransaction" :transactions="transactions" />
     <AddTransaction @addTransaction="handleAddTransaction" />
   </main>
 </template>
@@ -40,6 +40,13 @@ const getBalabce = computed(() => {
 
 const handleAddTransaction = (transactionData) => {
   transactions.value.push(transactionData)
+}
+
+const handleTransaction = (transaction) => {
+  const index = transactions.value.findIndex((item) => item.id === transaction.id)
+  if (index !== -1) {
+    transactions.value.splice(index, 1)
+  }
 }
 </script>
 

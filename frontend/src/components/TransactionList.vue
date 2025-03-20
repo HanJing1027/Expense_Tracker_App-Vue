@@ -2,11 +2,11 @@
   <div class="history-box">
     <h3>History</h3>
     <p v-if="transactions.length === 0" class="no-records">尚未有歷史紀錄</p>
-    <ul v-else v-for="transaction in transactions" :key="transaction.id" class="list">
-      <li :class="transaction.category">
+    <ul v-else class="list">
+      <li v-for="transaction in transactions" :key="transaction.id" :class="transaction.category">
         <span>{{ transaction.text }}</span>
         <span>{{ transaction.category === 'plus' ? '+' : '-' }} ${{ transaction.amount }}</span>
-        <button class="delete-btn">x</button>
+        <button @click="deleteTransaction(transaction)" class="delete-btn">x</button>
       </li>
     </ul>
   </div>
@@ -19,6 +19,12 @@ const props = defineProps({
     default: () => [],
   },
 })
+
+const emits = defineEmits(['deleteTransaction'])
+
+const deleteTransaction = (transaction) => {
+  emits('deleteTransaction', transaction)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -56,6 +62,15 @@ const props = defineProps({
     background-color: #fff;
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.09);
     border-radius: 5px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -2rem;
+      height: 100%;
+      width: 2rem;
+    }
 
     &.plus {
       border-right: 0.35rem solid #4caf50;

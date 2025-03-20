@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 
 const emits = defineEmits(['addTransaction'])
 
