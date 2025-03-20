@@ -15,9 +15,24 @@ import IncomeExpenses from './components/IncomeExpenses.vue'
 import TransactionList from './components/TransactionList.vue'
 import AddTransaction from './components/AddTransaction.vue'
 
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 const transactions = ref([])
+
+watch(
+  transactions,
+  () => {
+    saveTransactionsToLocalStorage()
+  },
+  { deep: true }
+)
+
+onMounted(() => {
+  const savedTransactions = JSON.parse(localStorage.getItem('transactions'))
+  if (savedTransactions) {
+    transactions.value = savedTransactions
+  }
+})
 
 const getIncome = computed(() => {
   return transactions.value
@@ -47,6 +62,10 @@ const handleTransaction = (transaction) => {
   if (index !== -1) {
     transactions.value.splice(index, 1)
   }
+}
+
+const saveTransactionsToLocalStorage = () => {
+  localStorage.setItem('transactions', JSON.stringify(transactions.value))
 }
 </script>
 
