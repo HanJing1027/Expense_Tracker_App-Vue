@@ -12,27 +12,15 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-
 const props = defineProps({
-  transactions: {
-    type: Array,
-    default: () => [],
+  getIncome: {
+    type: Number,
+    default: 0,
   },
-})
-
-const getIncome = computed(() => {
-  return props.transactions
-    .filter((item) => item.category === 'plus')
-    .reduce((acc, item) => acc + item.amount, 0)
-    .toFixed(2)
-})
-
-const getExpenses = computed(() => {
-  return props.transactions
-    .filter((item) => item.category === 'minus')
-    .reduce((acc, item) => acc + item.amount, 0)
-    .toFixed(2)
+  getExpenses: {
+    type: Number,
+    default: 0,
+  },
 })
 </script>
 

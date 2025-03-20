@@ -1,11 +1,18 @@
 <template>
   <div class="balabce-box">
     <h4>YOUR BALABCE</h4>
-    <h1 class="balabce">$0.00</h1>
+    <h1 class="balabce">${{ getBalabce }}</h1>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+  getBalabce: {
+    type: Number,
+    default: 0,
+  },
+})
+</script>
 
 <style lang="scss" scoped>
 .balabce-box {
