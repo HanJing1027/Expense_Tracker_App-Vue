@@ -2,7 +2,7 @@
   <Header />
   <section class="container">
     <Balabce />
-    <IncomeExpenses />
+    <IncomeExpenses :transactions="transactions" />
     <TransactionList :transactions="transactions" />
     <AddTransaction />
   </section>
@@ -15,7 +15,7 @@ import IncomeExpenses from './components/IncomeExpenses.vue'
 import TransactionList from './components/TransactionList.vue'
 import AddTransaction from './components/AddTransaction.vue'
 
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const transactions = ref([
   {

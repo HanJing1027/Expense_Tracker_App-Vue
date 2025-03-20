@@ -2,16 +2,39 @@
   <div class="inc-exp-box">
     <div>
       <h4>收入</h4>
-      <p class="money plus">+$0,00</p>
+      <p class="money plus">+${{ getIncome }}</p>
     </div>
     <div>
       <h4>支出</h4>
-      <p class="money minus">-$0,00</p>
+      <p class="money minus">-${{ getExpenses }}</p>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  transactions: {
+    type: Array,
+    default: () => [],
+  },
+})
+
+const getIncome = computed(() => {
+  return props.transactions
+    .filter((item) => item.category === 'plus')
+    .reduce((acc, item) => acc + item.amount, 0)
+    .toFixed(2)
+})
+
+const getExpenses = computed(() => {
+  return props.transactions
+    .filter((item) => item.category === 'minus')
+    .reduce((acc, item) => acc + item.amount, 0)
+    .toFixed(2)
+})
+</script>
 
 <style lang="scss" scoped>
 .inc-exp-box {
